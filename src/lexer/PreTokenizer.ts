@@ -1,5 +1,7 @@
 type char = string;
 
+export type PreTokens = string[];
+
 export class PreTokenizer {
     private currentToken: char[] = [];
     private index = 0;
@@ -17,7 +19,7 @@ export class PreTokenizer {
         this.tokens.push(this.currentToken.join(""));
         this.currentToken = [];
     }
-    private shouldPushBecauseSingleToken(c: char) {
+    private shouldPushBecauseSingleToken(c: char): boolean {
         if (c === "{") return true;
         if (c === "}") return true;
         if (c === "(") return true;
@@ -30,9 +32,7 @@ export class PreTokenizer {
         if (c === "'") return true;
         if (c === '"') return true;
         if (c === "`") return true;
-        // if (c === "V") return true;
-        // if (c === "}") return true;
-        // if (c === "}") return true;
+        return false;
     }
     private handleCharAndShouldContinue(c: char | null): boolean {
         if (c === null) {

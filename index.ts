@@ -1,1 +1,3 @@
-console.log("Hello via Bun!");
+const main = () => {};
+
+main();
