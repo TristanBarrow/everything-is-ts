@@ -1,6 +1,9 @@
 {
     "name": "everything-is-ts",
     "type": "module",
+    "scripts": {
+        "test:int": "bash ./integration-test/test.bash"
+    },
     "devDependencies": {
         "bun-types": "latest"
     },
