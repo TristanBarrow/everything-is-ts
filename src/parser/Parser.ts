@@ -1,5 +1,5 @@
-import { MacroToken, Tokens } from "../lexer/Tokenizer";
-import { Ast } from "./Ast";
+import { MacroToken, SeparatorToken, Tokens } from "../lexer/Tokenizer";
+import { Ast, MacroStatementRaw } from "./Ast";
 
 export class Parser {
     private tokens: Tokens;
@@ -8,10 +8,10 @@ export class Parser {
     constructor(tokens: Tokens) {
         this.tokens = tokens;
     }
-    currentName() {
+    private currentName() {
         return this.tokens[this.index].name;
     }
-    processMacro() {
+    private processMacro() {
         if (this.tokens[this.index] === undefined)
             throw Error(
                 "Critical Failure Error, Macro is not the current token."
@@ -23,8 +23,14 @@ export class Parser {
             this.tokens[this.index].value !== ";"
         )
             throw Error("Macros must end with a semi-colon.");
-        const separator = this.tokens[this.index];
-        this.ast = [{ macro, separator }];
+        const separator = this.tokens[this.index] as SeparatorToken;
+        const macroStatement: MacroStatementRaw = {
+            containerType: "statement",
+            id: "MacroStatement",
+            macro,
+            separator,
+        };
+        this.ast.push(macroStatement);
         return;
     }
     parse(): Ast {

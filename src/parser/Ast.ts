@@ -1,13 +1,19 @@
 import { MacroToken, SeparatorToken } from "../lexer/Tokenizer";
 
-export type MacroStatement = {
-    macro: MacroToken;
-    separator: SeparatorToken;
+type Statement = {
+    containerType: "statement";
 };
 
-type Statement = MacroStatement;
-type Expression = {};
+type Expression = {
+    containerType: "expression";
+};
 
-type StatementExpression = Statement | Expression;
+export type MacroStatementRaw = {
+    id: "MacroStatement";
+    macro: MacroToken;
+    separator: SeparatorToken;
+} & Statement;
 
-export type Ast = StatementExpression[];
+type RawNode = MacroStatementRaw;
+
+export type Ast = RawNode[];
