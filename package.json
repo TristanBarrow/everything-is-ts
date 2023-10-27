@@ -3,9 +3,8 @@
     "type": "module",
     "scripts": {
         "test:int": "bash ./integration-test/test.bash",
-        "asm": "nasm ./os/boot_sect.s -o ./os/boot_sect.bin",
-        "boot": "qemu-system-x86_64 -nographic -drive format=raw,file=./os/boot_sect.bin",
-        "asm:boot": "bun run asm && bun run boot"
+        "boot": "qemu-system-x86_64 -nographic -drive format=raw,file=./os/bin/boot_sect.bin",
+        "load-ts-lite": "bash ./os/load_ts_lite.bash"
     },
     "devDependencies": {
         "bun-types": "latest"
