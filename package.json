@@ -2,7 +2,10 @@
     "name": "everything-is-ts",
     "type": "module",
     "scripts": {
-        "test:int": "bash ./integration-test/test.bash"
+        "test:int": "bash ./integration-test/test.bash",
+        "asm": "nasm ./os/boot_sect.s -o ./os/boot_sect.bin",
+        "boot": "qemu-system-x86_64 -nographic -drive format=raw,file=./os/boot_sect.bin",
+        "asm:boot": "bun run asm && bun run boot"
     },
     "devDependencies": {
         "bun-types": "latest"
