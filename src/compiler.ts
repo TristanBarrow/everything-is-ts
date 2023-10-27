@@ -2,11 +2,11 @@ import { PreTokenizer, PreTokens } from "./lexer/PreTokenizer";
 import { Tokens } from "./lexer/Tokenizer";
 import { ActiveAst } from "./parser/ActiveAst";
 import { Ast } from "./parser/Parser";
-import { HackAsmVisitor } from "./visitor-emitter/HackAsmVisitor";
+import { AsmVisitor } from "./visitor-emitter/AsmVisitor";
 import { Visitor } from "./visitor-emitter/Visitor";
 
-const preTokenize = (): PreTokens => {
-    const preTokenizer = new PreTokenizer("");
+const preTokenize = (code: string): PreTokens => {
+    const preTokenizer = new PreTokenizer(code);
     return preTokenizer.calculateTokens();
 };
 
@@ -28,9 +28,9 @@ const hydrateAst = (ast: Ast): ActiveAst => {
 
 const runVisitorEmitter = (activeAst: ActiveAst, visitor: Visitor) => {};
 
-export const pipeline = () => {
+export const pipeline = (code: string, outputFile: string) => {
     runVisitorEmitter(
-        hydrateAst(validateAst(parse(tokenize(preTokenize())))),
-        new HackAsmVisitor()
+        hydrateAst(validateAst(parse(tokenize(preTokenize(code))))),
+        new AsmVisitor(outputFile)
     );
 };
