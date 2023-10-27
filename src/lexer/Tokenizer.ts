@@ -8,14 +8,15 @@ interface Token {
     value: any;
 }
 
-interface MacroToken extends Token {
+type Macro = "END_BOOT_SECTOR";
+export interface MacroToken extends Token {
     name: "macro";
-    value: string;
+    value: Macro;
 }
 
 type Separator = ";";
 
-interface SeparatorToken extends Token {
+export interface SeparatorToken extends Token {
     name: "separator";
     value: Separator;
 }
@@ -27,7 +28,7 @@ export class Tokenizer {
     constructor(preTokens: string[]) {
         this.preTokens = preTokens;
     }
-    private macro(value: string): MacroToken {
+    private macro(value: Macro): MacroToken {
         return {
             name: "macro",
             value,
@@ -41,7 +42,7 @@ export class Tokenizer {
     }
     tokenize(): Tokens {
         return this.preTokens.map((preToken): Token => {
-            if (MACROS.includes(preToken)) return this.macro(preToken);
+            if (MACROS.includes(preToken)) return this.macro(preToken as Macro);
             if (SEPARATORS.includes(preToken))
                 return this.separator(preToken as Separator);
             return { name: "null", value: null };
