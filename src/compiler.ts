@@ -1,5 +1,5 @@
 import { PreTokenizer, PreTokens } from "./lexer/PreTokenizer";
-import { Tokens } from "./lexer/Tokenizer";
+import { Tokenizer, Tokens } from "./lexer/Tokenizer";
 import { ActiveAst } from "./parser/ActiveAst";
 import { Ast } from "./parser/Parser";
 import { AsmVisitor } from "./visitor-emitter/AsmVisitor";
@@ -11,7 +11,8 @@ const preTokenize = (code: string): PreTokens => {
 };
 
 const tokenize = (preTokens: PreTokens): Tokens => {
-    return [];
+    const tokenizer = new Tokenizer(preTokens);
+    return tokenizer.tokenize();
 };
 
 const parse = (tokens: Tokens): Ast => {
@@ -29,8 +30,11 @@ const hydrateAst = (ast: Ast): ActiveAst => {
 const runVisitorEmitter = (activeAst: ActiveAst, visitor: Visitor) => {};
 
 export const pipeline = (code: string, outputFile: string) => {
-    runVisitorEmitter(
-        hydrateAst(validateAst(parse(tokenize(preTokenize(code))))),
-        new AsmVisitor(outputFile)
-    );
+    const preTokens = preTokenize(code);
+    const tokens = tokenize(preTokens);
+    const ast = parse(tokens);
+    console.log("ast", ast);
+    const validatedAst = validateAst(ast);
+    const hydratedAst = hydrateAst(validatedAst);
+    runVisitorEmitter(hydratedAst, new AsmVisitor(outputFile));
 };

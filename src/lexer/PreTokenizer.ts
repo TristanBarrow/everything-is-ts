@@ -66,7 +66,7 @@ export class PreTokenizer {
             this.index++;
             c = this.getChar();
         }
-
+        this.tokens = this.tokens.filter((token) => token !== "\n");
         return this.tokens;
     }
 }

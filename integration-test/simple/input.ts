@@ -1,3 +1,1 @@
-const main = () => {
-    return 0;
-};
+END_BOOT_SECTOR;

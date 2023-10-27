@@ -1,6 +1,3 @@
-main:
-    push    rbp
-    mov     rbp, rsp
-    mov     eax, 0
-    pop     rbp
-    ret
+jmp $
+times 510-($-$$) db 0 
+dw 0xaa55
